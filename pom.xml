@@ -35,7 +35,7 @@
             <manifest>
               <addClasspath>true</addClasspath>
               <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>org.apache.streaming.WordCount</mainClass>
+              <mainClass>org.apache.examples.SqlserverToBigqueryPipeline</mainClass>
             </manifest>
           </archive>
         </configuration>
