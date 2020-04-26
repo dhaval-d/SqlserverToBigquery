@@ -79,7 +79,7 @@ public class SqlserverToBigqueryPipeline {
 
   private static final Logger LOG = LoggerFactory.getLogger(SqlserverToBigqueryPipeline.class);
 
-
+  // main class
   public static void main(String[] args){
     // Register Options class for our pipeline with the factory
     PipelineOptionsFactory.register(SqlserverToBigqueryPipelineOptions.class);
@@ -87,7 +87,7 @@ public class SqlserverToBigqueryPipeline {
       .withValidation()
       .as(SqlserverToBigqueryPipelineOptions.class);
 
-
+    // Get options for SQL server and BQ
     final String GCP_PROJECT_NAME = options.getProject();
     final ValueProvider<String> GCP_BQ_DATASET_NAME = options.getBigQueryDatasetName();
     final ValueProvider<String> GCP_BQ_TABLE_NAME = options.getBigQueryTableName();
@@ -96,16 +96,19 @@ public class SqlserverToBigqueryPipeline {
     final ValueProvider<String> SQL_PASSWORD = options.getSqlServerPassword();
     final ValueProvider<String> SQL_TABLE_NAME = options.getSqlServerTableName();
 
+    // Build JDBC url
     String jdbcUrl = "jdbc:sqlserver://"+ SQL_HOST_NAME.get() +";" +
             "user="+SQL_USER_NAME.get()+";" +
             "password="+SQL_PASSWORD.get();
 
+    // Build a sample sql query
     String sqlQuery = "SELECT * from " + SQL_TABLE_NAME.get();
 
     options.setTempLocation(options.getGcpTempLocation());
     // Create a pipeline using options created above
     Pipeline p = Pipeline.create(options);
 
+    // Read from Sql server
     p.apply("SQLServer Read - JDBC",JdbcIO.<TableRow>read()
             .withDataSourceConfiguration(JdbcIO.DataSourceConfiguration.create(
                     "com.microsoft.sqlserver.jdbc.SQLServerDriver",
@@ -133,16 +136,15 @@ public class SqlserverToBigqueryPipeline {
   private static TableRow getBqRowForTable(ResultSet resultSet) throws SQLException {
     ResultSetMetaData md = resultSet.getMetaData();
 
-
     // SQL starts counting with 1 instead of 0
     int cnt = 1;
     TableRow tr = new TableRow();
 
+    // Go through all columns and build a row for BigQuery
     while(cnt <= md.getColumnCount()){
       tr.set(md.getColumnName(cnt), resultSet.getString(cnt));
       cnt +=1;
     }
-
     return tr;
   }
 }
