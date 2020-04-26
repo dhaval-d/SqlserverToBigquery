@@ -96,7 +96,7 @@ public class SqlserverToBigqueryPipeline {
     final ValueProvider<String> SQL_PASSWORD = options.getSqlServerPassword();
     final ValueProvider<String> SQL_TABLE_NAME = options.getSqlServerTableName();
 
-    // Build JDBC url
+    // Build JDBC url -- ideally we should be fetching username and password from Cloud KMS
     String jdbcUrl = "jdbc:sqlserver://"+ SQL_HOST_NAME.get() +";" +
             "user="+SQL_USER_NAME.get()+";" +
             "password="+SQL_PASSWORD.get();
