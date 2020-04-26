@@ -40,36 +40,36 @@ import org.slf4j.LoggerFactory;
  * table already exists.
  * */
 public class SqlserverToBigqueryPipeline {
-     /*   mvn compile exec:java -Dexec.mainClass=org.apache.examples.SqlserverSinkPipeline \
-           -Dexec.args="--project=google.com:testdhaval \
-                        --stagingLocation=gs://dd_dataflow_stage/stage \
-                        --gcpTempLocation=gs://dd_dataflow_temp/temp \
+     /*   mvn compile exec:java -Dexec.mainClass=org.apache.examples.SqlserverToBigqueryPipeline \
+           -Dexec.args="--project=MY_PROJECT_ID \
+                        --stagingLocation=GCS_STAGING_LOCATION \
+                        --gcpTempLocation=GCS_TEMP_LOCATION \
                         --runner=DataflowRunner \
                         --autoscalingAlgorithm=THROUGHPUT_BASED \
                         --maxNumWorkers=10 \
-                        --sqlServerHostName=10.14.128.3 \
-                        --sqlServerUserName=sqlserver \
-                        --sqlServerPassword=scmin.12345 \
-                        --sqlServerTableName="sample_db.dbo.persons" \
-                        --bigQueryDatasetName=db \
-                        --bigQueryTableName=persons \
+                        --sqlServerHostName=SQL_SERVER_HOST_AND_INSTANCEorIP \
+                        --sqlServerUserName=SQL_USER_NAME \
+                        --sqlServerPassword=SQL_PASSWORD \
+                        --sqlServerTableName=DB.SCHEMA.TABLENAME \
+                        --bigQueryDatasetName=BQ_DATASET \
+                        --bigQueryTableName=BQ_TABLE_NAME \
                         --jobName=sql-server-pipeline-dev-v1"
         To create a template:
         mvn compile exec:java \
-            -Dexec.mainClass=org.apache.streaming.pipeline.SqlserverSinkPipeline \
+            -Dexec.mainClass=org.apache.streaming.pipeline.SqlserverToBigqueryPipeline \
             -Dexec.args="--runner=DataflowRunner \
-                        --templateLocation=gs://dd_export/templates/SqlServerToBqPipeline1.0 \
-                        --project=google.com:testdhaval \
-                        --stagingLocation=gs://dd_dataflow_stage/stage \
-                        --gcpTempLocation=gs://dd_dataflow_temp/temp \
+                        --templateLocation=GCS_TEMPLATE_LOCATION/SqlServerToBqPipeline1.0 \
+                        --project=MY_PROJECT_ID \
+                        --stagingLocation=GCS_STAGING_LOCATION \
+                        --gcpTempLocation=GCS_TEMP_LOCATION \
                         --autoscalingAlgorithm=THROUGHPUT_BASED \
                         --maxNumWorkers=10 \
-                        --sqlServerHostName=10.14.128.3 \
-                        --sqlServerUserName=sqlserver \
-                        --sqlServerPassword=scmin.12345 \
-                        --sqlServerTableName="sample_db.dbo.persons" \
-                        --bigQueryDatasetName=db \
-                        --bigQueryTableName=persons \
+                        --sqlServerHostName=SQL_SERVER_HOST_AND_INSTANCEorIP \
+                        --sqlServerUserName=SQL_USER_NAME \
+                        --sqlServerPassword=SQL_PASSWORD \
+                        --sqlServerTableName=DB.SCHEMA.TABLENAME \
+                        --bigQueryDatasetName=BQ_DATASET \
+                        --bigQueryTableName=BQ_TABLE_NAME \
                         --jobName=sql-server-pipeline-dev-v1"
     */
   private static final BigQueryIO.Write.CreateDisposition
